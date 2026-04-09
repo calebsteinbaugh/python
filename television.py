@@ -10,7 +10,11 @@ class Television:
         self.__muted = muted
         self.__volume = volume
         self.__channel = channel
-
+        if volume > Television.max_volume or volume < Television_min_volume:
+            raise ValueError("Volume out of range")
+        if channel > Television.max_channel or channel < Television_min_channel:
+            raise ValueError("Volume out of range")
+        
     def power(self):
         self.__status = not self.__status 
 
