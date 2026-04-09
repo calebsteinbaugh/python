@@ -61,3 +61,33 @@ class TestTelevision:
     def test_str(self):
         tv = Television(status=True, muted=False, volume=1, channel=2)
         assert str(tv) == "Power = True, Channel = 2, Volume = 1"
+
+    def test_volume_validation_above_max(self):
+        with pytest.raises(ValueError, match="Volume out of range"):
+            Television(volume=Television.max_volume + 1)
+
+    def test_volume_validation_below_min(self):
+        with pytest.raises(ValueError, match="Volume out of range"):
+            Television(volume=Television.min_volume - 1)
+
+    def test_channel_validation_above_max(self):
+        with pytest.raises(ValueError, match="Volume out of range"):
+            Television(channel=Television.max_channel + 1)
+
+    def test_channel_validation_below_min(self):
+        with pytest.raises(ValueError, match="Volume out of range"):
+            Television(channel=Television.min_channel - 1)
+
+    def test_valid_volume_at_boundaries(self):
+        tv_min = Television(volume=Television.min_volume)
+        assert tv_min._Television__volume == Television.min_volume
+        
+        tv_max = Television(volume=Television.max_volume)
+        assert tv_max._Television__volume == Television.max_volume
+
+    def test_valid_channel_at_boundaries(self):
+        tv_min = Television(channel=Television.min_channel)
+        assert tv_min._Television__channel == Television.min_channel
+        
+        tv_max = Television(channel=Television.max_channel)
+        assert tv_max._Television__channel == Television.max_channel
