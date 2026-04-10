@@ -4,22 +4,29 @@ from television import Television
 
 class TestTelevision:
 
+    """
+    INIT tests
+    """
 
-    def test_init_default_values(self):
+    def test_init_default_vals(self):
         tv = Television()
         assert tv._Television__status is False
         assert tv._Television__muted is False
         assert tv._Television__volume == Television.min_volume
         assert tv._Television__channel == Television.min_channel
 
-    def test_init_custom_values(self):
+    def test_init_custom_vals(self):
         tv = Television(True, True, 1, 2)
         assert tv._Television__status is True
         assert tv._Television__muted is True
         assert tv._Television__volume == 1
         assert tv._Television__channel == 2
 
-
+  
+    """
+    POWER tests
+    """
+    
     def test_power_turns_tv_on(self):
         tv = Television()
         tv.power()
@@ -31,6 +38,9 @@ class TestTelevision:
         tv.power()
         assert tv._Television__status is False
 
+    """
+    MUTE tests
+    """
 
     def test_mute_when_tv_on_after_volume_up(self):
         tv = Television()
@@ -65,8 +75,11 @@ class TestTelevision:
 
         assert tv._Television__status is False
         assert tv._Television__muted is False
-
-
+    
+    """
+    CHANNEL UP tests
+    """
+ 
     def test_channel_up_when_tv_off(self):
         tv = Television()
         tv.channel_up()
@@ -82,7 +95,7 @@ class TestTelevision:
         assert tv._Television__status is True
         assert tv._Television__channel == 1
 
-    def test_channel_up_wraps_past_max(self):
+    def test_channel_up_wraps(self):
         tv = Television(channel=Television.max_channel)
         tv.power()
         tv.channel_up()
@@ -90,15 +103,18 @@ class TestTelevision:
         assert tv._Television__status is True
         assert tv._Television__channel == Television.min_channel
 
-
-    def test_channel_down_when_tv_is_off(self):
+    """
+    CHANNEL DOWN tests
+    """
+    
+    def test_channel_down_when_tv_off(self):
         tv = Television(channel=2)
         tv.channel_down()
 
         assert tv._Television__status is False
         assert tv._Television__channel == 1
 
-    def test_channel_wraps_min_when_tv_on(self):
+    def test_channel_down_wraps_when_tv_on(self):
         tv = Television(channel=Television.min_channel)
         tv.power()
         tv.channel_down()
@@ -107,6 +123,9 @@ class TestTelevision:
         assert tv._Television__channel == Television.max_channel
 
 
+    """
+    VOLUME UP tests
+    """
     def test_volume_up_when_tv_off(self):
         tv = Television()
         tv.volume_up()
@@ -141,6 +160,10 @@ class TestTelevision:
         assert tv._Television__volume == Television.max_volume
 
 
+    """
+    VOLUME DOWN tests
+    """
+    
     def test_volume_down_when_tv_off(self):
         tv = Television(volume=1)
         tv.volume_down()
